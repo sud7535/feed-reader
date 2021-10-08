@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Axios from 'axios';
 import FeedPage from './feedPage';
 import './css/Login.css'
+import 'tachyons'
 
 function LoginScreen() {
   const [userName, setUser] = useState("");
@@ -55,19 +56,35 @@ function LoginScreen() {
   }
 
   return (
-    <div className="login">
-      <div className="container">
-        <label htmlFor="uname">Username</label>
-        <input type="text" placeholder={userPlaceHolder} onChange={handleUser}></input>
-        <label htmlFor="pass">Password</label>
-        <input type="password" placeholder="password" onChange={handlePass}></input>
-      </div>
-      <div className="btn">
-        <button type="button" onClick={handleLogin}>Login</button>
-        <p>OR</p>
-        <button type="button" onClick={handleSubmit}>Signup</button>
-      </div>
-    </div>
+
+    <article className="br3 ba white b--green-10 mv4 w-200 w-500-m w-250-l mw6 center shadow-5">
+      
+      <main className="pa4 purple-80">
+        <h2 className="center">Login/Signup form</h2>
+        <div className="container">
+          <label htmlFor="uname">Username </label>
+          <input type="text" placeholder={userPlaceHolder} onChange={handleUser}></input>
+          <br></br>
+          <br></br>
+          <label htmlFor="pass">Password </label>
+          <input type="password" placeholder="password" onChange={handlePass}></input>
+        </div>
+        <br></br>
+        <div className="center">
+          <button className="shadow-5 green pa1 bg-white br2" type="button" onClick={handleLogin}>Login</button>
+        </div>
+        
+        <br></br>
+
+        <h4 className="center">Don't have an account? Then register now!</h4>
+
+        <div className="center">   
+          <button className="shadow-5 green pa1 bg-white br2" type="button" onClick={handleSubmit}>Signup</button>
+        </div>
+      </main>
+
+    
+    </article>
   );
 }
 
