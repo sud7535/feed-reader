@@ -12,9 +12,9 @@ body
 }
 .navigation
 {
-    position: fixed;
-    width: 60px;
-    height: 100%;
+  position:fixed;
+    width: 5%;
+    height: 90vh;
     background: #3e0748;
     transition: 0.5s;
     overflow: hidden; /*to avoid text leak to the body while not hovering*/
@@ -164,16 +164,21 @@ body
   height: 90vh;
 }
 
+.card {
+  padding: 5%;
+  border: solid 1px;
+}
 .rsslist {
+  margin-left: 5%;
   background: green;
-  float: left;
+  overflow-y:auto;
   height: 100%;
-  width: 60%;
+  width: 53%;
 }
 
 .preview {
   background: red;
-  float: right;
+  float: left;
   width: 40%;
   height: 100%;
 }

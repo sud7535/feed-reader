@@ -5,6 +5,7 @@ import './css/Feed.css'
 
 function FeedList(){
   const [feedListArr,setFeedArr] = useState([]); 
+  const [contentSnip,setContentSnip] = useState("");
   async function getFeed(){
     try {
       const response = await Axios.post("http://localhost:5000/fetch", {
@@ -24,7 +25,12 @@ function FeedList(){
   return(
     <div className="rsslist">
     {feedListArr.map(arr =>{
-      return <li>{arr.title}</li>
+      return (
+        <div className="card">
+          <div dangerouslySetInnerHTML={{ __html: arr.content}}></div>;
+          <a href={arr.link}>{arr.title}</a>
+        </div>
+      )
     })}
     </div>
   )
@@ -100,8 +106,8 @@ export default function FeedPage() {
   return (
     <div>
       <FeedHeader/>
-      <FeedSideBar/>
       <div className="mainContent">
+      <FeedSideBar/>
         <FeedList/>
         <PreviewFrame/>
       </div>

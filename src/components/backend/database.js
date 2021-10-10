@@ -179,6 +179,7 @@ app.post("/fetch", function (req, res) {
       return console.log(err.message);
     }
     else {
+      console.log(result)
       res.json(result)
     }
   });
