@@ -100,6 +100,7 @@ app.post("/login", function (req, res) {
     if (err) {
       throw err;
     }
+    console.log(result)
     if (result) {
       jsonData = {
         ok: true,

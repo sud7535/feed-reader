@@ -27,10 +27,10 @@ function LoginScreen() {
         localStorage.setItem('cookie',response.data.cookie)
         sessionStorage.setItem('id', response.data.id);
         sessionStorage.setItem('name',response.data.name);
-        return <FeedPage/>
+        window.location.reload()
       }
       else {
-        setUserPlaceHolder("Incorrect username or password")
+        alert("failed")
       }
     } catch (err) {
       console.log(err);
