@@ -5,9 +5,9 @@ async function getFeed(url){
 
   let feed = await parser.parseURL(url);
 
-  feed.items.forEach(item => {
-    console.log(item)
-  });
+  // feed.items.forEach(item => {
+  //   console.log(item)
+  // });
   return feed.title;
 };
 

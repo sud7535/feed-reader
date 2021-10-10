@@ -7,7 +7,6 @@ import 'tachyons'
 function LoginScreen() {
   const [userName, setUser] = useState("");
   const [passWord, setPass] = useState("");
-  const [userPlaceHolder, setUserPlaceHolder] = useState("username");
 
   const handleUser = (event) => {
     setUser(event.target.value);
@@ -63,7 +62,7 @@ function LoginScreen() {
         <h2 className="center">Login/Signup form</h2>
         <div className="container">
           <label htmlFor="uname">Username </label>
-          <input type="text" placeholder={userPlaceHolder} onChange={handleUser}></input>
+          <input type="text" placeholder="username" onChange={handleUser}></input>
           <br></br>
           <br></br>
           <label htmlFor="pass">Password </label>

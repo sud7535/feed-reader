@@ -56,8 +56,19 @@ db.run(CST);
 db.run(CFT);
 
 
-async function syncFeed(id){
+function syncFeed(id){
   //Store all the feed data in database 
+  console.log(id)
+  db.all(`SELECT siteURL FROM sitedata WHERE userId = ?`, [id], (err, result) => {
+    if (err) {
+      throw err;
+    }
+    console.log("SyncFeed")
+    result.forEach((result)=>{
+      console.log(result.siteURL)
+    })
+  });
+  
 }
 
 //POST request for checking if cookie exists on server side
@@ -78,6 +89,7 @@ app.post("/ifcookie", function (req, res) {
         name: result.userName, 
       }
       console.log(jsonData)
+      syncFeed(result.userId);
       res.json(jsonData);
     }
     else {
@@ -108,6 +120,7 @@ app.post("/login", function (req, res) {
         cookie: `${result.userStore}`,
         name: user,
       }
+      syncFeed(result.userId);
     }
     else
     jsonData = {
@@ -144,11 +157,11 @@ app.post("/signup", function (req, res) {
 })
 
 //Add feed to the table CST
-app.post("/addfeed", function (req, res) {
+app.post("/url", function (req, res) {
   console.log("Got url")
   const url = req.body.url;
   console.log(url);
-  console.log(req.body.id)
+  console.log("Id:" + req.body.id)
   let title = '';
   async function handleTitle(title) {
     title = await getFeed(url);

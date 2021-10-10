@@ -20,6 +20,23 @@ function PreviewFrame(){
 }
 
 function FeedSideBar(){
+  async function addFeed(){
+    const feedUrl = prompt("Add Feed URL")
+        try {
+      const response = await Axios.post("http://localhost:5000/url", {
+        url: feedUrl,
+        id: sessionStorage.getItem('id'),
+      });
+      if (response.data.ok === true) {
+        alert("Site Added")
+      }
+      else {
+        alert("failed")
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
   return(
     <div className = "navigation">
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -32,7 +49,7 @@ function FeedSideBar(){
           </a>
         </li>
         <li>
-          <a href = "#">
+          <a href = "#" onClick={addFeed}>
             <span className = "icon"><i className="fa fa-plus-circle" aria-hidden="true"></i></span>
             <span className="title">Add Feed</span>
           </a>
