@@ -29,7 +29,7 @@ function LoginScreen() {
         window.location.reload()
       }
       else {
-        alert("failed")
+        alert("Login failed")
       }
     } catch (err) {
       console.log(err);

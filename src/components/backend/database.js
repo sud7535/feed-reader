@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const PORT = 5000;
-const { getFeed } = require('./feedParser.js');
+const { getFeed, getData } = require('./feedParser.js');
 
 //This Segment won't autorun
 //To run it:
@@ -34,7 +34,7 @@ const CST = `CREATE TABLE IF NOT EXISTS sitedata(
 //main page will be stored before being fetched
 const CFT = `CREATE TABLE IF NOT EXISTS feed(
   userId integer NOT NULL,
-  title TEXT NOT NULL,
+  title TEXT NOT NULL UNIQUE,
   link TEXT NOT NULL,
   pubDate TEXT NOT NULL, 
   author TEXT NOT NULL,
@@ -55,6 +55,22 @@ db.run(CUT);
 db.run(CST);
 db.run(CFT);
 
+function addNewsToDB(url,id){
+  async function add(){
+    const data = await getData(url);
+    const items = data.items;
+    items.forEach((items)=>{
+      db.run(`INSERT OR IGNORE INTO feed(userId,title,link,pubDate,author,contentSnippet,content) VALUES(?,?,?,?,?,?,?)`, 
+        [id,items.title,items.link,items.pubDate,items.author,items.contentSnippet,items.content], function(err) {
+        if (err) {
+          return console.log(err.message);
+        }
+      }); 
+
+    });
+  }
+  add(url)
+}
 
 function syncFeed(id){
   //Store all the feed data in database 
@@ -66,6 +82,7 @@ function syncFeed(id){
     console.log("SyncFeed")
     result.forEach((result)=>{
       console.log(result.siteURL)
+      addNewsToDB(result.siteURL,id)
     })
   });
   
@@ -156,6 +173,16 @@ app.post("/signup", function (req, res) {
   });
 })
 
+app.post("/fetch", function (req, res) {
+  db.all(`SELECT title,link,pubDate,author,contentSnippet,content FROM feed WHERE userId = ?`, [req.body.id], function (err,result) {
+    if (err) {
+      return console.log(err.message);
+    }
+    else {
+      res.json(result)
+    }
+  });
+})
 //Add feed to the table CST
 app.post("/url", function (req, res) {
   console.log("Got url")

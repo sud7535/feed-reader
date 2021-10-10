@@ -1,12 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import FeedHeader from './feedHeader';
 import Axios from 'axios';
 import './css/Feed.css'
 
 function FeedList(){
+  const [feedListArr,setFeedArr] = useState([]); 
+  async function getFeed(){
+    try {
+      const response = await Axios.post("http://localhost:5000/fetch", {
+        id: sessionStorage.getItem('id'),
+      });
+      if (response.data) {
+        setFeedArr(response.data)
+      }
+      else {
+        console.log(response.data)
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  getFeed();
   return(
     <div className="rsslist">
-      
+    {feedListArr.map(arr =>{
+      return <li>{arr.title}</li>
+    })}
     </div>
   )
 }
@@ -22,7 +41,7 @@ function PreviewFrame(){
 function FeedSideBar(){
   async function addFeed(){
     const feedUrl = prompt("Add Feed URL")
-        try {
+    try {
       const response = await Axios.post("http://localhost:5000/url", {
         url: feedUrl,
         id: sessionStorage.getItem('id'),

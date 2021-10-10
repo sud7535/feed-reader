@@ -11,6 +11,10 @@ async function getFeed(url){
   return feed.title;
 };
 
+async function getData(url){
+  let feed = await parser.parseURL(url);
+  return feed;
+}
 // function getFeed(url){
 //   feedTitle(url).then (feed => {
 //       return feed.title
@@ -19,4 +23,5 @@ async function getFeed(url){
 
 module.exports = {
   getFeed : getFeed,
+  getData: getData
 }
