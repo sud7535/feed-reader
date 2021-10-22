@@ -1,156 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap');
-*
-{
-    margin : 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
-body
-{
-    min-height: 100vh;
-}
-.navigation
-{
-  position:fixed;
-    width: 5%;
-    height: 90vh;
-    background: #3e0748;
-    transition: 0.5s;
-    overflow: hidden; /*to avoid text leak to the body while not hovering*/
-}
-.navigation:hover,
-.navigation.active
-{
-    width: 200px;    
-}
-.navigation ul
-{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;    
-}
-.navigation ul li
-{
-    position: relative;
-    width: 100%;
-    List-style: none;
-}
-.navigation ul li:hover
-{
-    background: #ea1d63;
-}
-.navigation ul li a
-{
-    position: relative;
-    display: block;
-    width:100%;
-    display: flex;
-    text-decoration: none;
-    color: #fff;
-}
-.navigation ul li a .icon
-{
-    position: relative;
-    display: block;
-    min-width: 60px;
-    height: 60px;
-    Line-height: 60px;
-    text-align: center;
-}
-.navigation ul li a .icon .fa
-{
-    font-size: 24px;
-}
-.navigation ul li a .title
-{
-    position: relative;
-    display: block;
-    padding: 0 10px;
-    height: 60px;
-    line-height: 60px;
-    text-align: start;
-    white-space: nowrap;
-}
-.toggle
-{
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 60px;
-    height: 60px;
-    background: #330748;
-    cursor: pointer;
-}
-.toggle.active
-{
-    background: #ea1d63;
-}
-.toggle:before
-{
-    content: '\f0c9';/*got this content code from fontawesome website*/
-    font-family: fontAwesome;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    line-height: 60px;
-    text-align: center;
-    font-size: 24px;
-    color: #fff;
-}
-.toggle.active:before
-{
-    content: '\f00d';/*again got this from fontawsome*/    
-}
-.exit
-{
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 60px;
-    height: 60px;
-    background: #3e0748;
-    cursor: pointer;
-}
-.exit.active
-{
-    background: #ea1d63;
-}
-.exit:before
-{
-    content: '\f08b';
-    font-family: fontAwesome;
-    position: absolute;
-    width: 100%;
-    color: #fff;
-    height:100%;
-    line-height: 60px;
-    text-align: center;
-    font-size: 24px;
-}
-.exit.active:before
-{
-    content: '\f0b';
-}
-@media (max-width:767px)
-{
-    .navigation
-    {
-        left:-60px;
-    }
-    .navigation.active
-    {
-        left: 0px;
-        width: 100%;
-    }
-}                                
 
+.feedBody {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
 
-/* Feed Header */
 .header{
   background: black;
   height: 10vh;
+}
+
+.header button{
+  float: right; 
+  margin: 0 10px 10px 0;
 }
 
 .username{
@@ -160,7 +26,9 @@ body
 }
 
 .mainContent {
+  display: flex;
   background: blue;
+  width: 100%;
   height: 90vh;
 }
 
@@ -169,7 +37,6 @@ body
   border: solid 1px;
 }
 .rsslist {
-  margin-left: 5%;
   background: green;
   overflow-y:auto;
   height: 100%;
@@ -178,7 +45,6 @@ body
 
 .preview {
   background: red;
-  float: left;
-  width: 40%;
+  width: 47%;
   height: 100%;
 }

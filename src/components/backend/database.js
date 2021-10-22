@@ -56,6 +56,7 @@ db.run(CST);
 db.run(CFT);
 
 function addNewsToDB(url,id){
+  console.log("Adding News 2 DB")
   async function add(){
     const data = await getData(url);
     const items = data.items;
@@ -63,8 +64,11 @@ function addNewsToDB(url,id){
       db.run(`INSERT OR IGNORE INTO feed(userId,title,link,pubDate,author,contentSnippet,content) VALUES(?,?,?,?,?,?,?)`, 
         [id,items.title,items.link,items.pubDate,items.author,items.contentSnippet,items.content], function(err) {
         if (err) {
-          return console.log(err.message);
+          return console.log("addNewsToDB:" + err.message);
         }
+          else {
+            console.log("data inserted")
+          }
       }); 
 
     });
@@ -74,25 +78,24 @@ function addNewsToDB(url,id){
 
 function syncFeed(id){
   //Store all the feed data in database 
-  console.log(id)
+  console.log("SyncFeed ID:" + id)
   db.all(`SELECT siteURL FROM sitedata WHERE userId = ?`, [id], (err, result) => {
     if (err) {
       throw err;
     }
-    console.log("SyncFeed")
-    result.forEach((result)=>{
-      console.log(result.siteURL)
-      addNewsToDB(result.siteURL,id)
-    })
+    else {
+      result.forEach((result)=>{
+        // console.log(result.siteURL)
+        addNewsToDB(result.siteURL,id)
+      })
+    }
   });
-  
 }
 
 //POST request for checking if cookie exists on server side
 app.post("/ifcookie", function (req, res) {
-  console.log("Checking for cookie")
   const cookie = req.body.cookie;
-  console.log(cookie)
+  console.log("Checking for cookie: " + cookie)
   let jsonData;
   db.get(`SELECT userId,userName FROM user WHERE userStore = ?`, [cookie], (err, result) => {
     if (err) {
@@ -105,8 +108,7 @@ app.post("/ifcookie", function (req, res) {
         id: result.userId,
         name: result.userName, 
       }
-      console.log(jsonData)
-      syncFeed(result.userId);
+      // console.log(jsonData)
       res.json(jsonData);
     }
     else {
@@ -137,15 +139,14 @@ app.post("/login", function (req, res) {
         cookie: `${result.userStore}`,
         name: user,
       }
-      syncFeed(result.userId);
     }
     else
     jsonData = {
       ok: false,
       id: null,
     }
+      res.json(jsonData);
   });
-  res.json(jsonData);
 })
 
 //Sign up the user
@@ -174,6 +175,7 @@ app.post("/signup", function (req, res) {
 })
 
 app.post("/fetch", function (req, res) {
+  syncFeed(req.body.id);
   db.all(`SELECT title,link,pubDate,author,contentSnippet,content FROM feed WHERE userId = ?`, [req.body.id], function (err,result) {
     if (err) {
       return console.log(err.message);

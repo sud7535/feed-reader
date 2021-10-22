@@ -1,21 +1,18 @@
 import React, { useState } from 'react';
+// import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import Axios from 'axios';
 import FeedPage from './feedPage';
 import './css/Login.css'
-import 'tachyons'
 
 function LoginScreen() {
   const [userName, setUser] = useState("");
   const [passWord, setPass] = useState("");
-
   const handleUser = (event) => {
     setUser(event.target.value);
   }
-
   const handlePass = (event) => {
     setPass(event.target.value);
   }
-
   async function handleLogin() {
     try {
       const response = await Axios.post("http://localhost:5000/login", {
@@ -26,7 +23,7 @@ function LoginScreen() {
         localStorage.setItem('cookie',response.data.cookie)
         sessionStorage.setItem('id', response.data.id);
         sessionStorage.setItem('name',response.data.name);
-        window.location.reload()
+        Login();
       }
       else {
         alert("Login failed")
@@ -47,7 +44,7 @@ function LoginScreen() {
         localStorage.setItem('cookie',response.data.cookie)
         sessionStorage.setItem('id', response.data.id);
         sessionStorage.setItem('name',response.data.name);
-        window.location.reload()
+        Login();
       }
     } catch (err) {
       console.log(err);
@@ -55,43 +52,21 @@ function LoginScreen() {
   }
 
   return (
-
-    <article className="br3 ba white b--green-10 mv4 w-200 w-500-m w-250-l mw6 center shadow-5">
-      
-      <main className="pa4 purple-80">
-        <h2 className="center">Login/Signup form</h2>
-        <div className="container">
-          <label htmlFor="uname">Username </label>
-          <input type="text" placeholder="username" onChange={handleUser}></input>
-          <br></br>
-          <br></br>
-          <label htmlFor="pass">Password </label>
-          <input type="password" placeholder="password" onChange={handlePass}></input>
-        </div>
-        <br></br>
-        <div className="center">
-          <button className="shadow-5 green pa1 bg-white br2" type="button" onClick={handleLogin}>Login</button>
-        </div>
-        
-        <br></br>
-
-        <h4 className="center">Don't have an account? Then register now!</h4>
-
-        <div className="center">   
-          <button className="shadow-5 green pa1 bg-white br2" type="button" onClick={handleSubmit}>Signup</button>
-        </div>
-      </main>
-
-    
-    </article>
+    <div className="loginPage">
+      <form className="login-block">
+        <input type="text" placeholder="Username" onChange={handleUser}></input>
+        <input type="password" placeholder="Password" onChange={handlePass}></input>
+        <button type="button" onClick={handleLogin}>Login</button>
+        <button type="button" onClick={handleSubmit}>Signup</button>
+      </form>
+    </div>
   );
 }
 
 function Login() {
-  const [cookee,setCookie] = useState(false);
-  async function checkCookie() {
+  const data = localStorage.getItem('cookie')
+  async function checkCookie(data) {
     try {
-      const data = localStorage.getItem('cookie')
       const response = await Axios.post("http://localhost:5000/ifcookie", {
         cookie: data,
       });
@@ -99,21 +74,23 @@ function Login() {
         console.log("Cookie found")
         sessionStorage.setItem('id', response.data.id);
         sessionStorage.setItem('name',response.data.name);
-        setCookie(true);
+        // setCookie(true);
+        return <FeedPage/>;
       }
-      // else {
-      //   return false;
-      // }
+      else {
+        return <LoginScreen/>;
+      }
     } catch (err) {
       console.log(err);
     }
   }
-  checkCookie();
-  if (cookee === true){
-    console.log("ha hain");
-    return <FeedPage/>
+  console.log(data)
+  if (data != null) {
+    if(checkCookie(data)) return <FeedPage/>
+    else return <LoginScreen/>
   }
   else {
+    console.log("LoginScreen")
     return <LoginScreen/>
   }
 }
