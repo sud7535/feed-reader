@@ -1,50 +1,100 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Arvo&family=Merriweather:wght@300&display=swap');
 .feedBody {
-  width: 100%;
-  height: 100%;
-  margin: 0 auto;
-  position: absolute;
-  top: 0;
-  left: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    position: absolute;
+    overflow-y: hidden;
+    top: 0;
+    left: 0;
+    background-image: url(../../background.svg)
 }
 
 .header{
-  background: black;
-  height: 10vh;
+    font-family: 'Arvo', serif;
+    display: grid;
+    grid-template-columns: 95% 5%;
+    background: #00000088;
+    height: 10vh;
 }
 
-.header button{
-  float: right; 
-  margin: 0 10px 10px 0;
+.header img{
+    color: #ffffff;
+    width: 6vh;
+    align-self: center;
+    margin: 2vh;
+    cursor: pointer;
+    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(288deg) brightness(102%) contrast(102%);
 }
 
 .username{
-  font-size: 3em;
-  padding: 0em 0em 0em 1em;
-  color: white;
+    display: flex;
+    font-size: 6vh;
+    vertical-align: middle;
+    align-self: center;
+    padding: 0 0 0 2vh;
+    color: white;
+}
+
+.username span {
+    color: #ff656c;
+    padding: 0 0 0 10px;
 }
 
 .mainContent {
-  display: flex;
-  background: blue;
-  width: 100%;
-  height: 90vh;
+    display: flex;
+    width: 100%;
+    height: 90vh;
 }
 
 .card {
-  padding: 5%;
-  border: solid 1px;
-}
-.rsslist {
-  background: green;
-  overflow-y:auto;
-  height: 100%;
-  width: 53%;
+    background: #ffffffee;
+    overflow-y: hidden;
+    height: 40vh;
+    margin: 2% 5% 2% 5%;
+    border: solid 1px;
+    border-radius: 20px;
+    box-shadow: 5px 5px 20px red;
+    transition: all 0.2s; 
 }
 
-.preview {
-  background: red;
-  width: 47%;
-  height: 100%;
+.card:hover{
+    transform: scaleX(105%);
 }
+
+.card p {
+    padding: 2% 1% 1% 2%;
+    margin: 0px;
+    text-decoration: underline;
+    border-radius: 5px 5px 0px 0px;
+    color: #ff0000ee;
+}
+
+.title {
+    padding: 2%;
+    cursor: pointer;
+    font-family: 'Merriweather', serif;
+} 
+
+.title div{
+    overflow-y: auto;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.5s linear;
+}
+
+.title:hover div{
+    opacity: 1;
+    visibility: visible;
+}
+
+
+.rsslist {
+    overflow-y:auto;
+    padding: 0 0 100px 0;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    height: 100%;
+    width: 100%;
+}
+

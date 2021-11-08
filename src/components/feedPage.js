@@ -1,21 +1,22 @@
-import React, { useState } from 'react';
-import Axios from 'axios';
-import './css/Feed.css'
+import React, { useEffect, useState } from "react";
+import Axios from "axios";
+import parse from "html-react-parser";
+import "./css/Feed.css";
 
-function FeedHeader(){
-  const uname = sessionStorage.getItem('name');
-  async function addFeed(){
-    const feedUrl = prompt("Add Feed URL")
+function FeedHeader(props) {
+  const uname = sessionStorage.getItem("name");
+  async function addFeed() {
+    const feedUrl = prompt("Add Feed URL");
     try {
       const response = await Axios.post("http://localhost:5000/url", {
         url: feedUrl,
-        id: sessionStorage.getItem('id'),
+        id: sessionStorage.getItem("id"),
       });
       if (response.data.ok === true) {
-        alert("Site Added")
-      }
-      else {
-        alert("failed")
+        alert("Site Added");
+        props.onLoad("Data");
+      } else {
+        alert("failed");
       }
     } catch (err) {
       console.log(err);
@@ -23,102 +24,68 @@ function FeedHeader(){
   }
   return (
     <div className="header">
-      <span className="username">Hello <span>{uname}</span></span>
-      <button onClick={addFeed}>Add</button>
+      <span className="username">
+        Hello <span>{uname}</span>
+      </span>
+      <img
+        onClick={addFeed}
+        alt="Add"
+        src="https://www.svgrepo.com/show/125067/plus-sign.svg"
+      />
     </div>
-  )
+  );
 }
 
-function FeedList(){
-  const [feedListArr,setFeedArr] = useState([]); 
-  // const [contentSnip,setContentSnip] = useState("");
-  async function getFeed(){
+function FeedList() {
+  const [feedListArr, setFeedArr] = useState([]);
+  function handlePrev(content) {
+    window.open(content);
+  }
+  async function getFeed() {
     try {
       const response = await Axios.post("http://localhost:5000/fetch", {
-        id: sessionStorage.getItem('id'),
+        id: sessionStorage.getItem("id"),
       });
       if (response.data) {
-        setFeedArr(response.data)
-      }
-      else {
-        console.log(response.data)
+        console.log(response.data);
+        setFeedArr(response.data);
+      } else {
+        console.log(response.data);
       }
     } catch (err) {
       console.log(err);
     }
   }
-  getFeed();
-  return(
+  useEffect(() => {
+    getFeed();
+  }, []);
+  return (
     <div className="rsslist">
-    {feedListArr.map(arr =>{
-      return (
-        <div className="card">
-          <div dangerouslySetInnerHTML={{ __html: arr.content}}></div>;
-          <a href={arr.link}>{arr.title}</a>
-        </div>
-      )
-    })}
+      {feedListArr.map((arr) => {
+        return (
+          <div className="card">
+            <p>{arr.siteName}</p>
+            <div className="title">
+              <h3 onClick={() => handlePrev(arr.link)}>{arr.title}</h3>
+              <div>{parse(arr.contentSnippet)}</div>
+            </div>
+          </div>
+        );
+      })}
     </div>
-  )
+  );
 }
-
-function PreviewFrame(){
-  return(
-  <div className="preview">
-    <iframe src="https://google.com" title="Preview"></iframe>
-  </div>
-  )
-}
-
-// function FeedSideBar(){
-//   return(
-//     <div className = "navigation">
-//       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-//       </link>
-//       <ul>
-//         <li>
-//           <a href = "#">
-//             <span className = "icon"><i className="fa fa-home" aria-hidden="true"></i></span>
-//             <span className="title">Profile</span>
-//           </a>
-//         </li>
-//         <li>
-//           <a href = "#" onClick={addFeed}>
-//             <span className = "icon"><i className="fa fa-plus-circle" aria-hidden="true"></i></span>
-//             <span className="title">Add Feed</span>
-//           </a>
-//         </li>            
-//         <li>
-//           <a href = "#">
-//             <span className = "icon"><i className="fa fa-heart" aria-hidden="true"></i></span>
-//             <span className="title">Favourites</span>
-//           </a>
-//         </li>
-//         <li>
-//           <a href = "#">
-//             <span className = "icon"><i className="fa fa-moon-o" aria-hidden="true"></i></span>
-//             <span className="title">Theme</span>
-//           </a>
-//         </li>
-//         <li>
-//           <a href = "#">
-//             <span className = "icon"><i className="fa fa-info-circle" aria-hidden="true"></i></span>
-//             <span className="title">Help</span>
-//           </a>
-//         </li>            
-//       </ul>
-//     </div>  
-//   )
-// }
 
 export default function FeedPage() {
+  const [state, changeState] = useState("");
+  function handleLoad() {
+    changeState("Re-rendered");
+    console.log(state);
+  }
   return (
     <div className="feedBody">
-      <FeedHeader/>
-      <div className="mainContent">
-        <FeedList/>
-        <PreviewFrame/>
-      </div>
+      <FeedHeader onLoad={handleLoad} />
+      <FeedList />
     </div>
-  )
+  );
 }
