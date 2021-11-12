@@ -35,7 +35,7 @@ const CST = `CREATE TABLE IF NOT EXISTS sitedata(
 const CFT = `CREATE TABLE IF NOT EXISTS feed(
     siteName TEXT NOT NULL,
   userId integer NOT NULL,
-  title TEXT NOT NULL UNIQUE,
+  title TEXT NOT NULL,
   link TEXT NOT NULL,
   pubDate TEXT NOT NULL, 
   contentSnippet TEXT NOT NULL,

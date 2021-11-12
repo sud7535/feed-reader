@@ -3,7 +3,7 @@ import Axios from "axios";
 import parse from "html-react-parser";
 import "./css/Feed.css";
 
-function FeedHeader(props) {
+function FeedHeader() {
   const uname = sessionStorage.getItem("name");
   async function addFeed() {
     const feedUrl = prompt("Add Feed URL");
@@ -14,7 +14,7 @@ function FeedHeader(props) {
       });
       if (response.data.ok === true) {
         alert("Site Added");
-        props.onLoad("Data");
+        window.location.reload()
       } else {
         alert("failed");
       }
@@ -77,14 +77,9 @@ function FeedList() {
 }
 
 export default function FeedPage() {
-  const [state, changeState] = useState("");
-  function handleLoad() {
-    changeState("Re-rendered");
-    console.log(state);
-  }
   return (
     <div className="feedBody">
-      <FeedHeader onLoad={handleLoad} />
+      <FeedHeader />
       <FeedList />
     </div>
   );

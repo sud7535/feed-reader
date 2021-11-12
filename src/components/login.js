@@ -22,7 +22,7 @@ function LoginScreen() {
         localStorage.setItem("cookie", response.data.cookie);
         sessionStorage.setItem("id", response.data.id);
         sessionStorage.setItem("name", response.data.name);
-        Login();
+        window.location.reload()
       } else {
         alert("Login failed");
       }
@@ -42,7 +42,7 @@ function LoginScreen() {
         localStorage.setItem("cookie", response.data.cookie);
         sessionStorage.setItem("id", response.data.id);
         sessionStorage.setItem("name", response.data.name);
-        Login();
+        window.location.reload()
       }
     } catch (err) {
       console.log(err);
